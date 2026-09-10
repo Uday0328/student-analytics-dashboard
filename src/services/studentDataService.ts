@@ -344,6 +344,33 @@ export class StudentDataService {
     return created;
   }
 
+  /**
+   * Delete a student record (removes from session; S3 deletion requires backend DELETE endpoint)
+   */
+  public async deleteStudent(studentId: string): Promise<void> {
+    console.log('[studentDataService.deleteStudent] Removing student:', studentId);
+    // Remove from session cache
+    this.sessionStudents = this.sessionStudents.filter((s) => s.id !== studentId);
+
+    // Attempt to call DELETE API if available
+    try {
+      const fullUrl = `${API_BASE_URL}/api/students/${encodeURIComponent(studentId)}`;
+      const response = await fetch(fullUrl, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (response.ok) {
+        console.log('[studentDataService.deleteStudent] Server deletion successful');
+      } else {
+        // If DELETE endpoint not available, just do client-side removal
+        console.warn('[studentDataService.deleteStudent] Server DELETE not available, removed client-side only');
+      }
+    } catch {
+      // Network error — still remove client-side
+      console.warn('[studentDataService.deleteStudent] Network error on DELETE, removed client-side only');
+    }
+  }
+
   public getAthenaSchema(): AthenaSchemaObject[] {
     return ATHENA_OBJECTS;
   }

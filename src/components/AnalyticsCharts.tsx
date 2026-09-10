@@ -353,7 +353,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           min-height: 240px;
         }
         .chart-tooltip {
-          background: #FFFFFF;
+          background: var(--bg-surface);
           border: 1px solid var(--border-subtle);
           padding: 0.6rem 0.85rem;
           border-radius: var(--radius-md);

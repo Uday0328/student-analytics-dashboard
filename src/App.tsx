@@ -10,7 +10,7 @@ import { AddStudentModal } from './components/AddStudentModal';
 import { Student, FilterState } from './types/student';
 import { studentDataService } from './services/studentDataService';
 import { calculateMetrics } from './data/mockStudentData';
-import { CheckCircle2, AlertCircle, X } from 'lucide-react';
+import { CheckCircle2, AlertCircle, X, Database } from 'lucide-react';
 
 const INITIAL_FILTERS: FilterState = {
   school: 'all',
@@ -38,6 +38,9 @@ export const App: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [notification, setNotification] = useState<NotificationToast | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
+  const [isFilterLoading, setIsFilterLoading] = useState<boolean>(false);
+  const [allStudentsLoaded, setAllStudentsLoaded] = useState<boolean>(false);
 
   // Sync theme attribute on <html> element
   useEffect(() => {
@@ -52,36 +55,48 @@ export const App: React.FC = () => {
     }
   }, [notification]);
 
-  // Fetch or filter students
-  const loadStudents = useCallback(() => {
-    // Load active filtered students
-    studentDataService
-      .getStudents(filters)
-      .then((res) => {
-        setStudents(res);
-        setApiError(null);
-      })
-      .catch((err) => {
-        console.error('Error fetching student analytics:', err);
-        setApiError(err?.message || 'Failed to fetch students from AWS API Gateway.');
-      });
+  // Load all students once on mount (cached for total count)
+  const loadAllStudents = useCallback(async () => {
+    try {
+      const res = await studentDataService.getStudents();
+      setAllStudents(res);
+      setAllStudentsLoaded(true);
+      setApiError(null);
+    } catch (err: any) {
+      console.error('Error loading total dataset:', err);
+      setApiError(err?.message || 'Failed to fetch master dataset from AWS API Gateway.');
+    }
+  }, []);
 
-    // Load master total count
-    studentDataService
-      .getStudents()
-      .then((res) => {
-        setAllStudents(res);
-        setApiError(null);
-      })
-      .catch((err) => {
-        console.error('Error loading total dataset:', err);
-        setApiError(err?.message || 'Failed to fetch master dataset from AWS API Gateway.');
-      });
+  // Load filtered students
+  const loadFilteredStudents = useCallback(async () => {
+    setIsFilterLoading(true);
+    try {
+      const res = await studentDataService.getStudents(filters);
+      setStudents(res);
+      setApiError(null);
+    } catch (err: any) {
+      console.error('Error fetching student analytics:', err);
+      setApiError(err?.message || 'Failed to fetch students from AWS API Gateway.');
+    } finally {
+      setIsFilterLoading(false);
+      setIsInitialLoading(false);
+    }
   }, [filters]);
 
+  // Initial load: fetch all + filtered in parallel
   useEffect(() => {
-    loadStudents();
-  }, [loadStudents]);
+    Promise.all([loadAllStudents(), loadFilteredStudents()]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // On filter change (after initial load), only fetch filtered
+  useEffect(() => {
+    if (allStudentsLoaded) {
+      loadFilteredStudents();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   const metrics = useMemo(() => {
     if (students.length > 0) {
@@ -119,8 +134,6 @@ export const App: React.FC = () => {
       // Immediately reflect newly created student in active state and total count
       setStudents((prev) => [created, ...prev.filter((s) => s.id !== created.id)]);
       setAllStudents((prev) => [created, ...prev.filter((s) => s.id !== created.id)]);
-      // Reload active and total students
-      loadStudents();
       setNotification({
         type: 'success',
         title: 'Student Added Successfully',
@@ -136,6 +149,86 @@ export const App: React.FC = () => {
       throw err;
     }
   };
+
+  const handleDeleteStudent = async (studentId: string) => {
+    try {
+      await studentDataService.deleteStudent(studentId);
+      setStudents((prev) => prev.filter((s) => s.id !== studentId));
+      setAllStudents((prev) => prev.filter((s) => s.id !== studentId));
+      setSelectedStudent(null);
+      setNotification({
+        type: 'success',
+        title: 'Student Removed',
+        message: `${studentId} has been removed from the active dataset.`,
+      });
+    } catch (err: any) {
+      console.error('Failed to delete student:', err);
+      setNotification({
+        type: 'error',
+        title: 'Failed to Remove Student',
+        message: err?.message || 'Could not delete student record.',
+      });
+    }
+  };
+
+  // ─── Initial Loading Screen ───
+  if (isInitialLoading) {
+    return (
+      <div className="dashboard-container">
+        <div className="initial-loading-screen">
+          <div className="loading-icon-wrapper">
+            <Database size={32} />
+          </div>
+          <h2 className="loading-title">Cloud Based Student Data Lake and Analytics System</h2>
+          <p className="loading-subtitle">Connecting to AWS Athena Data Lake...</p>
+          <div className="loading-bar-container">
+            <div className="loading-bar-fill" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Skeleton Loader for sections while filter is loading ───
+  const renderSkeletonKPI = () => (
+    <section className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+      {[...Array(6)].map((_, i) => (
+        <div key={i} className="glass-card skeleton-kpi-card">
+          <div className="skeleton skeleton-text" style={{ width: '70%' }} />
+          <div className="skeleton skeleton-heading" style={{ width: '50%' }} />
+          <div className="skeleton skeleton-text-sm" />
+        </div>
+      ))}
+    </section>
+  );
+
+  const renderSkeletonCharts = () => (
+    <section style={{ marginBottom: '1.75rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="glass-card" style={{ padding: '1.25rem 1.4rem' }}>
+            <div className="skeleton skeleton-text" style={{ width: '60%', marginBottom: '1rem' }} />
+            <div className="skeleton skeleton-chart" />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+
+  const renderSkeletonTable = () => (
+    <div className="glass-card" style={{ padding: '1.25rem 1.4rem', marginBottom: '2rem' }}>
+      <div className="skeleton skeleton-heading" style={{ marginBottom: '1rem' }} />
+      <div style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="skeleton-row">
+            {[...Array(7)].map((_, j) => (
+              <div key={j} className="skeleton skeleton-cell" style={{ width: `${12 + (j * 3)}%` }} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <div className="dashboard-container">
@@ -185,7 +278,7 @@ export const App: React.FC = () => {
             <strong>AWS Connection Error:</strong> {apiError}
           </div>
           <button
-            onClick={loadStudents}
+            onClick={() => { loadAllStudents(); loadFilteredStudents(); }}
             style={{
               background: 'transparent',
               border: '1px solid rgba(239, 68, 68, 0.5)',
@@ -214,7 +307,9 @@ export const App: React.FC = () => {
       />
 
       {/* KPI Cards Section */}
-      <KPISection metrics={metrics} totalDatasetCount={allStudents.length} />
+      {isFilterLoading ? renderSkeletonKPI() : (
+        <KPISection metrics={metrics} totalDatasetCount={allStudents.length} />
+      )}
 
       {/* Interactive Cohort Filters */}
       <FilterBar
@@ -226,18 +321,23 @@ export const App: React.FC = () => {
       />
 
       {/* Analytical Charts Grid */}
-      <AnalyticsCharts students={students} />
+      {isFilterLoading ? renderSkeletonCharts() : (
+        <AnalyticsCharts students={students} />
+      )}
 
       {/* Master Student Data Table */}
-      <StudentTable
-        students={students}
-        onSelectStudent={(stu) => setSelectedStudent(stu)}
-      />
+      {isFilterLoading ? renderSkeletonTable() : (
+        <StudentTable
+          students={students}
+          onSelectStudent={(stu) => setSelectedStudent(stu)}
+        />
+      )}
 
       {/* Student Deep-Dive Profile Modal */}
       <StudentDetailModal
         student={selectedStudent}
         onClose={() => setSelectedStudent(null)}
+        onDelete={handleDeleteStudent}
       />
 
       {/* Add Student Modal */}
@@ -377,6 +477,19 @@ export const App: React.FC = () => {
         }
         .footer-dot {
           opacity: 0.5;
+        }
+
+        .kpi-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+        }
+        @media (max-width: 1400px) {
+          .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+          .kpi-grid { grid-template-columns: repeat(2, 1fr); }
         }
       `}</style>
     </div>

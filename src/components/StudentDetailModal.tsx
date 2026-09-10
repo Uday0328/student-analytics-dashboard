@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   X,
   User,
@@ -6,18 +6,22 @@ import {
   Clock,
   Home,
   Sparkles,
+  Trash2,
 } from 'lucide-react';
 import { Student } from '../types/student';
 
 interface StudentDetailModalProps {
   student: Student | null;
   onClose: () => void;
+  onDelete?: (studentId: string) => void;
 }
 
 export const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
   student,
   onClose,
+  onDelete,
 }) => {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   if (!student) return null;
 
   const g3DiffG1 = student.G3 - student.G1;
@@ -248,9 +252,42 @@ export const StudentDetailModal: React.FC<StudentDetailModalProps> = ({
           <span className="footer-db-text">
             Source: <code className="font-mono">student_data_lake_db.student_analytics</code>
           </span>
-          <button className="btn btn-primary btn-sm" onClick={onClose}>
-            Close Profile
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            {onDelete && !showDeleteConfirm && (
+              <button
+                className="btn btn-sm btn-danger-outline"
+                onClick={() => setShowDeleteConfirm(true)}
+                title="Delete this student record"
+              >
+                <Trash2 size={14} />
+                Delete
+              </button>
+            )}
+            {showDeleteConfirm && (
+              <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.8rem', color: '#EF4444', fontWeight: 600 }}>Confirm?</span>
+                <button
+                  className="btn btn-sm"
+                  style={{ background: '#EF4444', color: '#fff', border: 'none' }}
+                  onClick={() => {
+                    onDelete?.(student.id);
+                    setShowDeleteConfirm(false);
+                  }}
+                >
+                  Yes, Delete
+                </button>
+                <button
+                  className="btn btn-sm btn-outline"
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+            <button className="btn btn-primary btn-sm" onClick={onClose}>
+              Close Profile
+            </button>
+          </div>
         </div>
       </div>
 
