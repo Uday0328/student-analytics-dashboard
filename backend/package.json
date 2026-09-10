@@ -1,0 +1,20 @@
+{
+  "name": "student-analytics-backend",
+  "version": "1.0.0",
+  "description": "AWS Lambda backend for Student Data Lake Analytics with Amazon Athena",
+  "main": "dist/handler.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "@aws-sdk/client-athena": "^3.750.0",
+    "@aws-sdk/client-s3": "^3.1125.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.147",
+    "@types/node": "^22.13.5",
+    "typescript": "^5.7.3"
+  }
+}
