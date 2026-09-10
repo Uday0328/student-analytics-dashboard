@@ -1,6 +1,6 @@
-# 🎓 Student Performance Analytics Dashboard
+# 🎓 Cloud Based Student Data Lake and Analytics System
 
-A modern, production-grade **Student Performance Analytics & Academic Risk Prediction Platform** built with **React**, **TypeScript**, and **Vite**. Designed as the intelligence frontend for an **AWS Athena Student Data Lake** (`student_data_lake_db`).
+A modern, production-grade **Cloud Based Student Data Lake and Analytics System** built with **React**, **TypeScript**, and **Vite**. Designed as the intelligence frontend for an **AWS Athena Student Data Lake** (`student_data_lake_db`).
 
 ---
 
@@ -77,7 +77,7 @@ A modern, production-grade **Student Performance Analytics & Academic Risk Predi
                                                      v
                                   +---------------------------------------+
                                   |    React + Vite + TypeScript Client   |
-                                  | (Student Performance Analytics App)   |
+                                  | (Cloud Student Data Lake & Analytics) |
                                   +---------------------------------------+
 ```
 
