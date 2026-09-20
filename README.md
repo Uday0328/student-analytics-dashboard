@@ -45,19 +45,14 @@ A modern, production-grade **Student Performance Analytics & Academic Risk Predi
                                                      v
                                   +---------------------------------------+
                                   |        Amazon S3 Data Lake Bucket     |
-                                  |   s3://student-data-lake-bucket/raw/  |
-                                  +---------------------------------------+
-                                                     |
-                                                     v
-                                  +---------------------------------------+
-                                  |            AWS Glue Crawler           |
-                                  |    Schema Registry: student_raw       |
+                                  | s3://student-data-lake-2026-pujith... |
                                   +---------------------------------------+
                                                      |
                                                      v
                                   +---------------------------------------+
                                   |             Amazon Athena             |
-                                  |     Catalog: student_data_lake_db     |
+                                  |   Database: student_data_lake_db      |
+                                  |   Table: student_risk_analysis_new    |
                                   +---------------------------------------+
                                           |                       |
                   (Analytical Views)      |                       | (Risk ML Inference)

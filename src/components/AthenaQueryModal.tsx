@@ -67,16 +67,8 @@ export const AthenaQueryModal: React.FC<AthenaQueryModalProps> = ({
           <div className="pipeline-node">
             <Cloud size={16} className="node-icon text-blue" />
             <div className="node-info">
-              <span className="node-name">Amazon S3</span>
-              <span className="node-sub font-mono">s3://student-data-lake-bucket/raw/</span>
-            </div>
-          </div>
-          <ArrowRight size={16} className="pipeline-arrow" />
-          <div className="pipeline-node">
-            <Server size={16} className="node-icon text-purple" />
-            <div className="node-info">
-              <span className="node-name">AWS Glue Catalog</span>
-              <span className="node-sub font-mono">student_data_lake_db</span>
+              <span className="node-name">Amazon S3 Data Lake</span>
+              <span className="node-sub font-mono">raw/new_students/</span>
             </div>
           </div>
           <ArrowRight size={16} className="pipeline-arrow" />
@@ -84,7 +76,15 @@ export const AthenaQueryModal: React.FC<AthenaQueryModalProps> = ({
             <Database size={16} className="node-icon text-emerald" />
             <div className="node-info">
               <span className="node-name">Amazon Athena</span>
-              <span className="node-sub font-mono">Presto / Trino SQL Engine</span>
+              <span className="node-sub font-mono">student_risk_analysis_new</span>
+            </div>
+          </div>
+          <ArrowRight size={16} className="pipeline-arrow" />
+          <div className="pipeline-node">
+            <Server size={16} className="node-icon text-purple" />
+            <div className="node-info">
+              <span className="node-name">AWS Lambda / API</span>
+              <span className="node-sub font-mono">student-analytics-api</span>
             </div>
           </div>
           <ArrowRight size={16} className="pipeline-arrow" />
