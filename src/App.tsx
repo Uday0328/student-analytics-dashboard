@@ -6,6 +6,7 @@ import { AnalyticsCharts } from './components/AnalyticsCharts';
 import { StudentTable } from './components/StudentTable';
 import { StudentDetailModal } from './components/StudentDetailModal';
 import { AthenaQueryModal } from './components/AthenaQueryModal';
+import { AddStudentModal } from './components/AddStudentModal';
 import { Student, FilterState } from './types/student';
 import { studentDataService } from './services/studentDataService';
 import { MOCK_STUDENTS, calculateMetrics } from './data/mockStudentData';
@@ -25,6 +26,7 @@ export const App: React.FC = () => {
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [isAthenaModalOpen, setIsAthenaModalOpen] = useState<boolean>(false);
+  const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState<boolean>(false);
   const [students, setStudents] = useState<Student[]>(MOCK_STUDENTS);
 
   // Sync theme attribute on <html> element
@@ -50,6 +52,12 @@ export const App: React.FC = () => {
       isMounted = false;
     };
   }, [filters]);
+
+  const handleAddStudent = async (newStudent: Student) => {
+    await studentDataService.createStudent(newStudent);
+    const updated = await studentDataService.getStudents(filters);
+    setStudents(updated);
+  };
 
   const metrics = useMemo(() => {
     return calculateMetrics(students);
@@ -84,6 +92,7 @@ export const App: React.FC = () => {
         isDarkMode={isDarkMode}
         onToggleTheme={toggleTheme}
         onOpenAthenaModal={() => setIsAthenaModalOpen(true)}
+        onOpenAddStudentModal={() => setIsAddStudentModalOpen(true)}
         onResetFilters={handleResetFilters}
         hasActiveFilters={hasActiveFilters}
       />
@@ -119,6 +128,15 @@ export const App: React.FC = () => {
       <AthenaQueryModal
         isOpen={isAthenaModalOpen}
         onClose={() => setIsAthenaModalOpen(false)}
+      />
+
+      {/* Add New Student Modal */}
+      <AddStudentModal
+        isOpen={isAddStudentModalOpen}
+        onClose={() => setIsAddStudentModalOpen(false)}
+        onAddStudent={handleAddStudent}
+        existingStudents={students}
+        nextIdNumber={MOCK_STUDENTS.length + 1}
       />
 
       {/* Footer Branding */}

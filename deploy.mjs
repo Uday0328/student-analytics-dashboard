@@ -3,24 +3,14 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import readline from 'readline';
-import { LambdaClient, UpdateFunctionCodeCommand } from '@aws-sdk/client-lambda';
-import {
-  S3Client,
-  CreateBucketCommand,
-  PutBucketWebsiteCommand,
-  PutPublicAccessBlockCommand,
-  PutBucketPolicyCommand,
-  PutObjectCommand,
-} from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const REGION = process.env.AWS_REGION || 'ap-southeast-2';
 const ACCOUNT_ID = '958280224194';
-const LAMBDA_FUNCTION_NAME = process.env.LAMBDA_FUNCTION_NAME || 'student-analytics-api';
 const FRONTEND_BUCKET_NAME = process.env.FRONTEND_BUCKET_NAME || `student-analytics-dashboard-${ACCOUNT_ID}`;
-const ZIP_PATH = path.join(__dirname, 'backend', 'deploy', 'student-analytics-lambda.zip');
 const DIST_DIR = path.join(__dirname, 'dist');
 
 // Readline prompt helper
@@ -52,7 +42,7 @@ const MIME_TYPES = {
 
 async function main() {
   console.log('\n============================================================');
-  console.log(' 🚀 Student Analytics Dashboard - Node.js AWS Deployer');
+  console.log(' 🚀 Student Analytics Dashboard - Frontend S3 Deployer');
   console.log('============================================================\n');
 
   // 1. Check or Prompt for AWS Credentials
@@ -77,7 +67,6 @@ async function main() {
     ...(sessionToken ? { sessionToken } : {}),
   };
 
-  const lambdaClient = new LambdaClient({ region: REGION, credentials });
   const s3Client = new S3Client({ region: REGION, credentials });
 
   // 2. Build Frontend
@@ -89,87 +78,9 @@ async function main() {
     process.exit(1);
   }
 
-  // 3. Update Lambda Code
-  console.log(`\n⚡ Step 2: Updating Lambda function '${LAMBDA_FUNCTION_NAME}'...`);
-  if (!fs.existsSync(ZIP_PATH)) {
-    console.error(`❌ ZIP package not found at: ${ZIP_PATH}`);
-    process.exit(1);
-  }
-
+  // 3. Upload dist files to existing S3 bucket
+  console.log(`\n📤 Step 2: Uploading static frontend assets to S3 bucket '${FRONTEND_BUCKET_NAME}'...`);
   try {
-    const zipBytes = fs.readFileSync(ZIP_PATH);
-    const updateRes = await lambdaClient.send(
-      new UpdateFunctionCodeCommand({
-        FunctionName: LAMBDA_FUNCTION_NAME,
-        ZipFile: zipBytes,
-      })
-    );
-    console.log(`✅ Lambda updated! Version: ${updateRes.Version}, LastModified: ${updateRes.LastModified}`);
-  } catch (err) {
-    console.error(`❌ Lambda update failed: ${err.message}`);
-    console.log('Tip: Check function name and IAM permissions for lambda:UpdateFunctionCode');
-  }
-
-  // 4. Provision S3 Static Hosting Bucket & Upload
-  console.log(`\n🪣 Step 3: Configuring S3 bucket '${FRONTEND_BUCKET_NAME}'...`);
-  try {
-    try {
-      await s3Client.send(
-        new CreateBucketCommand({
-          Bucket: FRONTEND_BUCKET_NAME,
-          CreateBucketConfiguration: { LocationConstraint: REGION },
-        })
-      );
-      console.log(`   Created bucket: ${FRONTEND_BUCKET_NAME}`);
-    } catch (e) {
-      if (e.name === 'BucketAlreadyOwnedByYou' || e.name === 'BucketAlreadyExists') {
-        console.log(`   Bucket already exists: ${FRONTEND_BUCKET_NAME}`);
-      } else {
-        throw e;
-      }
-    }
-
-    // Static website config
-    await s3Client.send(
-      new PutBucketWebsiteCommand({
-        Bucket: FRONTEND_BUCKET_NAME,
-        WebsiteConfiguration: {
-          IndexDocument: { Suffix: 'index.html' },
-          ErrorDocument: { Key: 'index.html' },
-        },
-      })
-    );
-
-    // Public access block
-    await s3Client.send(
-      new PutPublicAccessBlockCommand({
-        Bucket: FRONTEND_BUCKET_NAME,
-        PublicAccessBlockConfiguration: {
-          BlockPublicAcls: false,
-          IgnorePublicAcls: false,
-          BlockPublicPolicy: false,
-          RestrictPublicBuckets: false,
-        },
-      })
-    );
-
-    // Bucket policy
-    const policy = JSON.stringify({
-      Version: '2012-10-17',
-      Statement: [
-        {
-          Sid: 'PublicReadGetObject',
-          Effect: 'Allow',
-          Principal: '*',
-          Action: 's3:GetObject',
-          Resource: `arn:aws:s3:::${FRONTEND_BUCKET_NAME}/*`,
-        },
-      ],
-    });
-    await s3Client.send(new PutBucketPolicyCommand({ Bucket: FRONTEND_BUCKET_NAME, Policy: policy }));
-
-    // Upload dist files
-    console.log('\n📤 Step 4: Uploading static assets to S3...');
     function getAllFiles(dir, fileList = []) {
       const files = fs.readdirSync(dir);
       files.forEach((file) => {
@@ -207,7 +118,7 @@ async function main() {
     }
 
     console.log('\n============================================================');
-    console.log(' 🎉 DEPLOYMENT SUCCESSFUL!');
+    console.log(' 🎉 FRONTEND DEPLOYMENT SUCCESSFUL!');
     console.log('============================================================');
     console.log(` 🌐 Live Dashboard URL: http://${FRONTEND_BUCKET_NAME}.s3-website-${REGION}.amazonaws.com`);
     console.log('============================================================\n');

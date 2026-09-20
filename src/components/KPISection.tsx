@@ -224,9 +224,12 @@ export const KPISection: React.FC<KPISectionProps> = ({ metrics, totalDatasetCou
           flex-direction: column;
           position: relative;
           overflow: hidden;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+          background: #0D1B1F;
+          border: 1px solid #162C34;
+          box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.4);
+        }
+        .kpi-card:hover {
+          border-color: rgba(0, 229, 212, 0.3);
         }
         .kpi-header {
           display: flex;
@@ -235,9 +238,9 @@ export const KPISection: React.FC<KPISectionProps> = ({ metrics, totalDatasetCou
           margin-bottom: 0.6rem;
         }
         .kpi-title {
-          font-size: 0.775rem;
+          font-size: 0.75rem;
           font-weight: 700;
-          color: #64748B;
+          color: #94A3B8;
           text-transform: uppercase;
           letter-spacing: 0.04em;
         }
@@ -250,34 +253,34 @@ export const KPISection: React.FC<KPISectionProps> = ({ metrics, totalDatasetCou
           justify-content: center;
         }
         .icon-blue {
-          background: #EFF6FF;
-          color: #2563EB;
-          border: 1px solid #BFDBFE;
+          background: rgba(0, 229, 212, 0.1);
+          color: #00E5D4;
+          border: 1px solid rgba(0, 229, 212, 0.25);
         }
         .icon-emerald {
-          background: #ECFDF5;
-          color: #059669;
-          border: 1px solid #A7F3D0;
+          background: rgba(0, 229, 212, 0.1);
+          color: #00E5D4;
+          border: 1px solid rgba(0, 229, 212, 0.25);
         }
         .icon-purple {
-          background: #F5F3FF;
-          color: #7C3AED;
-          border: 1px solid #DDD6FE;
+          background: rgba(168, 85, 247, 0.1);
+          color: #C084FC;
+          border: 1px solid rgba(168, 85, 247, 0.25);
         }
         .icon-amber {
-          background: #FFFBEB;
-          color: #D97706;
-          border: 1px solid #FDE68A;
+          background: rgba(245, 158, 11, 0.1);
+          color: #F59E0B;
+          border: 1px solid rgba(245, 158, 11, 0.25);
         }
         .icon-cyan {
-          background: #F0FDFA;
-          color: #0D9488;
-          border: 1px solid #99F6E4;
+          background: rgba(0, 229, 212, 0.1);
+          color: #00E5D4;
+          border: 1px solid rgba(0, 229, 212, 0.25);
         }
         .icon-rose {
-          background: #FEF2F2;
-          color: #DC2626;
-          border: 1px solid #FCA5A5;
+          background: rgba(239, 68, 68, 0.1);
+          color: #EF4444;
+          border: 1px solid rgba(239, 68, 68, 0.25);
         }
         .kpi-body {
           flex: 1;
@@ -289,13 +292,13 @@ export const KPISection: React.FC<KPISectionProps> = ({ metrics, totalDatasetCou
           font-size: 1.75rem;
           font-weight: 800;
           line-height: 1.2;
-          color: #1E293B;
+          color: #F1F5F9;
           letter-spacing: -0.02em;
         }
         .kpi-unit {
           font-size: 0.95rem;
           font-weight: 500;
-          color: #64748B;
+          color: #94A3B8;
         }
         .kpi-subtext {
           margin-top: 0.35rem;
@@ -303,17 +306,18 @@ export const KPISection: React.FC<KPISectionProps> = ({ metrics, totalDatasetCou
           display: flex;
           align-items: center;
           min-height: 1.3rem;
-          color: #64748B;
+          color: #94A3B8;
         }
-        .text-emerald { color: #059669; }
-        .text-purple { color: #7C3AED; }
-        .text-amber { color: #D97706; }
-        .text-cyan { color: #0D9488; }
-        .text-rose { color: #DC2626; }
+        .text-emerald { color: #00E5D4; }
+        .text-purple { color: #C084FC; }
+        .text-amber { color: #F59E0B; }
+        .text-cyan { color: #00E5D4; }
+        .text-rose { color: #EF4444; }
+        .text-secondary { color: #94A3B8; }
 
         .kpi-footer-bar {
           height: 4px;
-          background: #F1F5F9;
+          background: #091619;
           border-radius: var(--radius-full);
           margin-top: 0.85rem;
           overflow: hidden;
@@ -323,11 +327,11 @@ export const KPISection: React.FC<KPISectionProps> = ({ metrics, totalDatasetCou
           border-radius: var(--radius-full);
           transition: width 0.4s ease;
         }
-        .bg-blue { background: #3B82F6; }
-        .bg-emerald { background: #10B981; }
-        .bg-purple { background: #8B5CF6; }
+        .bg-blue { background: #00E5D4; }
+        .bg-emerald { background: #00E5D4; }
+        .bg-purple { background: #A855F7; }
         .bg-amber { background: #F59E0B; }
-        .bg-cyan { background: #14B8A6; }
+        .bg-cyan { background: #00E5D4; }
         .bg-rose { background: #EF4444; }
       `}</style>
     </section>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Database, Download, Moon, Sun, Terminal, RefreshCw } from 'lucide-react';
+import { Database, Download, Moon, Sun, Terminal, RefreshCw, UserPlus } from 'lucide-react';
 import { Student } from '../types/student';
 
 interface HeaderProps {
@@ -8,6 +8,7 @@ interface HeaderProps {
   isDarkMode: boolean;
   onToggleTheme: () => void;
   onOpenAthenaModal: () => void;
+  onOpenAddStudentModal: () => void;
   onResetFilters: () => void;
   hasActiveFilters: boolean;
 }
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   isDarkMode,
   onToggleTheme,
   onOpenAthenaModal,
+  onOpenAddStudentModal,
   onResetFilters,
   hasActiveFilters,
 }) => {
@@ -92,6 +94,15 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="header-actions">
           <button
+            onClick={onOpenAddStudentModal}
+            className="btn btn-primary btn-sm"
+            title="Add New Student Record"
+          >
+            <UserPlus size={15} />
+            <span>+ Add Student</span>
+          </button>
+
+          <button
             onClick={onOpenAthenaModal}
             className="btn btn-secondary btn-sm"
             title="Inspect Athena SQL Views & Tables"
@@ -153,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({
           margin-bottom: 1.75rem;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 0.85rem;
         }
         .header-top {
           display: flex;
@@ -161,10 +172,10 @@ export const Header: React.FC<HeaderProps> = ({
           align-items: center;
           flex-wrap: wrap;
           gap: 1rem;
-          background: #FFFFFF;
+          background: #0D1B1F;
           padding: 1.25rem 1.5rem;
           border-radius: var(--radius-lg);
-          border: 1px solid var(--border-subtle);
+          border: 1px solid #162C34;
           box-shadow: var(--shadow-sm);
         }
         .header-brand {
@@ -176,13 +187,13 @@ export const Header: React.FC<HeaderProps> = ({
           width: 48px;
           height: 48px;
           border-radius: var(--radius-md);
-          background: #EFF6FF;
-          border: 1px solid #BFDBFE;
+          background: #0E1E23;
+          border: 1px solid #162C34;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--color-primary);
-          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+          color: #00E5D4;
+          box-shadow: 0 0 10px rgba(0, 229, 212, 0.15);
         }
         .brand-title-row {
           display: flex;
@@ -191,19 +202,19 @@ export const Header: React.FC<HeaderProps> = ({
           flex-wrap: wrap;
         }
         .brand-title {
-          font-size: 1.55rem;
+          font-size: 1.45rem;
           font-weight: 800;
           letter-spacing: -0.015em;
-          color: #0F172A;
+          color: #F1F5F9;
           line-height: 1.25;
         }
         .athena-badge {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
-          background: #F0FDFA;
-          color: #0D9488;
-          border: 1px solid #99F6E4;
+          background: rgba(0, 229, 212, 0.1);
+          color: #00E5D4;
+          border: 1px solid rgba(0, 229, 212, 0.3);
           padding: 0.2rem 0.65rem;
           border-radius: var(--radius-full);
           font-size: 0.75rem;
@@ -213,8 +224,8 @@ export const Header: React.FC<HeaderProps> = ({
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background-color: #14B8A6;
-          box-shadow: 0 0 6px rgba(20, 184, 166, 0.6);
+          background-color: #00E5D4;
+          box-shadow: 0 0 8px #00E5D4;
           animation: pulse-dot 2s infinite;
         }
         @keyframes pulse-dot {
@@ -223,19 +234,19 @@ export const Header: React.FC<HeaderProps> = ({
         }
         .brand-subtitle {
           font-size: 0.85rem;
-          color: #64748B;
+          color: #94A3B8;
           margin-top: 0.2rem;
           font-weight: 400;
         }
         .text-highlight {
-          color: #2563EB;
-          background: #EFF6FF;
+          color: #00E5D4;
+          background: rgba(0, 229, 212, 0.1);
           padding: 0.1rem 0.4rem;
           border-radius: 4px;
           font-weight: 600;
         }
         .text-success {
-          color: #059669;
+          color: #00E5D4;
           font-weight: 600;
         }
         .header-actions {
@@ -250,8 +261,8 @@ export const Header: React.FC<HeaderProps> = ({
           gap: 1.25rem;
           flex-wrap: wrap;
           padding: 0.65rem 1.25rem;
-          background: #FFFFFF;
-          border: 1px solid var(--border-subtle);
+          background: #091619;
+          border: 1px solid #162C34;
           border-radius: var(--radius-md);
           box-shadow: var(--shadow-sm);
         }
@@ -266,7 +277,7 @@ export const Header: React.FC<HeaderProps> = ({
           font-weight: 500;
         }
         .stats-value {
-          color: #1E293B;
+          color: #F1F5F9;
           font-weight: 600;
         }
       `}</style>

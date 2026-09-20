@@ -116,12 +116,14 @@ GROUP BY school, studytime, absence_group, performance_level, risk_level;`,
   },
 ];
 
-// Configurable API Base URL (empty = mock data fallback)
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+// Configurable API Base URL (defaults to production API Gateway)
+const DEFAULT_API_BASE_URL = 'https://1a1fnoowu1.execute-api.ap-southeast-2.amazonaws.com';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL).replace(/\/$/, '');
 
 export class StudentDataService {
   private static instance: StudentDataService;
   private fallbackStudents: Student[] = MOCK_STUDENTS;
+  private sessionAddedStudents: Student[] = [];
 
   private constructor() {}
 
@@ -217,6 +219,13 @@ export class StudentDataService {
           };
         });
 
+        // Merge newly created session students if Athena query hasn't reindexed them yet
+        for (const sessionStu of this.sessionAddedStudents) {
+          if (!mappedStudents.some((s) => s.id.toLowerCase() === sessionStu.id.toLowerCase())) {
+            mappedStudents.unshift(sessionStu);
+          }
+        }
+
         // Apply client-side text search if provided
         if (filters?.searchQuery && filters.searchQuery.trim() !== '') {
           const q = filters.searchQuery.toLowerCase().trim();
@@ -283,6 +292,42 @@ export class StudentDataService {
 
   public getAthenaSchema(): AthenaSchemaObject[] {
     return ATHENA_OBJECTS;
+  }
+
+  /**
+   * Submit new student record to AWS API Gateway / Athena backend
+   */
+  public async createStudent(student: Student): Promise<{ success: boolean; message: string; student: Student }> {
+    if (API_BASE_URL) {
+      const url = `${API_BASE_URL}/api/students`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(student),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const errorMsg = data.message || data.error || `Server responded with status ${response.status}`;
+        throw new Error(errorMsg);
+      }
+
+      const createdStudent = data.student || student;
+      if (!this.sessionAddedStudents.some((s) => s.id.toLowerCase() === createdStudent.id.toLowerCase())) {
+        this.sessionAddedStudents.unshift(createdStudent);
+      }
+      this.fallbackStudents.unshift(createdStudent);
+
+      return { success: true, message: data.message || 'Student created successfully', student: createdStudent };
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    if (!this.sessionAddedStudents.some((s) => s.id.toLowerCase() === student.id.toLowerCase())) {
+      this.sessionAddedStudents.unshift(student);
+    }
+    this.fallbackStudents.unshift(student);
+    return { success: true, message: 'Student added to local dataset', student };
   }
 }
 

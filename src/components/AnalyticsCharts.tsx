@@ -23,8 +23,8 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
   const passCount = students.filter((s) => s.G3 >= 10).length;
   const failCount = students.filter((s) => s.G3 < 10).length;
   const passFailData = [
-    { name: 'Pass (G3 ≥ 10)', value: passCount, color: '#10B981' },
-    { name: 'Fail (G3 < 10)', value: failCount, color: '#EF4444' },
+    { name: 'Pass (G3 ≥ 10)', value: passCount, color: '#00E5D4' },
+    { name: 'Fail (G3 < 10)', value: failCount, color: '#94A3B8' },
   ];
 
   // Chart 2: Performance Level Distribution
@@ -32,9 +32,9 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
   const mediumCount = students.filter((s) => s.performance_level === 'Medium').length;
   const lowCount = students.filter((s) => s.performance_level === 'Low').length;
   const perfData = [
-    { name: 'High (≥15)', students: highCount, color: '#14B8A6' },
-    { name: 'Medium (10-14)', students: mediumCount, color: '#3B82F6' },
-    { name: 'Low (<10)', students: lowCount, color: '#EF4444' },
+    { name: 'High (≥15)', students: highCount, color: '#00E5D4' },
+    { name: 'Medium (10-14)', students: mediumCount, color: '#008F8A' },
+    { name: 'Low (<10)', students: lowCount, color: '#94A3B8' },
   ];
 
   // Chart 3: Average G3 by School
@@ -94,7 +94,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
   const modRiskCount = students.filter((s) => s.risk_level === 'Moderate Risk').length;
   const highRiskCount = students.filter((s) => s.risk_level === 'High Risk').length;
   const riskData = [
-    { name: 'Low Risk', value: lowRiskCount, color: '#10B981' },
+    { name: 'Low Risk', value: lowRiskCount, color: '#00E5D4' },
     { name: 'Moderate Risk', value: modRiskCount, color: '#F59E0B' },
     { name: 'High Risk', value: highRiskCount, color: '#EF4444' },
   ];
@@ -155,8 +155,8 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
                   verticalAlign="bottom"
                   height={36}
                   formatter={(value, entry: any) => (
-                    <span style={{ color: '#1E293B', fontSize: '0.8125rem', fontWeight: 500 }}>
-                      {value}: <strong className="font-mono" style={{ color: '#0F172A' }}>{entry.payload.value}</strong>
+                    <span style={{ color: '#94A3B8', fontSize: '0.8125rem', fontWeight: 500 }}>
+                      {value}: <strong className="font-mono" style={{ color: '#F1F5F9' }}>{entry.payload.value}</strong>
                     </span>
                   )}
                 />
@@ -177,7 +177,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={perfData} margin={{ top: 15, right: 10, left: -20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#12242B" vertical={false} />
                 <XAxis dataKey="name" stroke="#64748B" fontSize={12} tickLine={false} />
                 <YAxis stroke="#64748B" fontSize={12} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
@@ -203,13 +203,13 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={schoolData} margin={{ top: 15, right: 10, left: -20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#12242B" vertical={false} />
                 <XAxis dataKey="name" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" domain={[0, 20]} fontSize={12} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="avgG3" name="Avg Final Grade" fill="#3B82F6" radius={[6, 6, 0, 0]}>
-                  <Cell fill="#3B82F6" />
-                  <Cell fill="#8B5CF6" />
+                <Bar dataKey="avgG3" name="Avg Final Grade" fill="#00E5D4" radius={[6, 6, 0, 0]}>
+                  <Cell fill="#00E5D4" />
+                  <Cell fill="#008F8A" />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -228,11 +228,11 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={studyTimeData} margin={{ top: 15, right: 10, left: -20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#12242B" vertical={false} />
                 <XAxis dataKey="label" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" domain={[0, 20]} fontSize={12} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="avgG3" name="Avg Final Grade" fill="#14B8A6" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="avgG3" name="Avg Final Grade" fill="#00E5D4" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -250,12 +250,12 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           <div className="chart-body">
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={absenceGroupData} margin={{ top: 15, right: 10, left: -20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#12242B" vertical={false} />
                 <XAxis dataKey="group" stroke="#64748B" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748B" domain={[0, 20]} fontSize={12} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="avgG3" name="Avg Final Grade" fill="#F59E0B" radius={[6, 6, 0, 0]}>
-                  <Cell fill="#10B981" />
+                  <Cell fill="#00E5D4" />
                   <Cell fill="#F59E0B" />
                   <Cell fill="#EF4444" />
                 </Bar>
@@ -296,8 +296,8 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
                   verticalAlign="bottom"
                   height={36}
                   formatter={(value, entry: any) => (
-                    <span style={{ color: '#1E293B', fontSize: '0.8125rem', fontWeight: 500 }}>
-                      {value}: <strong className="font-mono" style={{ color: '#0F172A' }}>{entry.payload.value}</strong>
+                    <span style={{ color: '#94A3B8', fontSize: '0.8125rem', fontWeight: 500 }}>
+                      {value}: <strong className="font-mono" style={{ color: '#F1F5F9' }}>{entry.payload.value}</strong>
                     </span>
                   )}
                 />
@@ -330,9 +330,12 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           padding: 1.25rem 1.4rem;
           display: flex;
           flex-direction: column;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+          background: #0D1B1F;
+          border: 1px solid #162C34;
+          box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.4);
+        }
+        .chart-card:hover {
+          border-color: rgba(0, 229, 212, 0.3);
         }
         .chart-card-header {
           display: flex;
@@ -343,12 +346,12 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
         .chart-title {
           font-size: 0.9375rem;
           font-weight: 700;
-          color: #1E293B;
+          color: #F1F5F9;
           letter-spacing: -0.01em;
         }
         .chart-desc {
           font-size: 0.775rem;
-          color: #64748B;
+          color: #94A3B8;
           margin-top: 0.15rem;
         }
         .chart-body {
@@ -356,18 +359,18 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           min-height: 240px;
         }
         .chart-tooltip {
-          background: #FFFFFF;
-          border: 1px solid #CBD5E1;
+          background: #071114;
+          border: 1px solid #162C34;
           padding: 0.6rem 0.85rem;
           border-radius: var(--radius-md);
-          box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.1);
+          box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.5);
         }
         .tooltip-title {
           font-size: 0.8125rem;
           font-weight: 700;
-          color: #1E293B;
+          color: #F1F5F9;
           margin-bottom: 0.35rem;
-          border-bottom: 1px solid #E2E8F0;
+          border-bottom: 1px solid #162C34;
           padding-bottom: 0.25rem;
         }
         .tooltip-row {
@@ -383,10 +386,10 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ students }) =>
           border-radius: 50%;
         }
         .tooltip-name {
-          color: #64748B;
+          color: #94A3B8;
         }
         .tooltip-value {
-          color: #1E293B;
+          color: #F1F5F9;
           font-weight: 600;
         }
       `}</style>

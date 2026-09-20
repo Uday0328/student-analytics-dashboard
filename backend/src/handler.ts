@@ -7,6 +7,7 @@ import {
   Row,
   ColumnInfo,
 } from '@aws-sdk/client-athena';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 
 // Environment Configuration (using Lambda IAM Execution Role)
@@ -16,18 +17,22 @@ const ATHENA_OUTPUT_LOCATION =
   process.env.ATHENA_OUTPUT_LOCATION ||
   's3://student-data-lake-2026-pujith-958280224194-ap-southeast-2-an/athena-results/';
 const ATHENA_WORKGROUP = process.env.ATHENA_WORKGROUP || 'primary';
+const S3_DATA_LAKE_BUCKET =
+  process.env.S3_DATA_LAKE_BUCKET ||
+  'student-data-lake-2026-pujith-958280224194-ap-southeast-2-an';
 
 // Max polling timeout configuration
 const MAX_POLL_TIMEOUT_MS = 25000;
 const INITIAL_POLL_INTERVAL_MS = 400;
 
-// Initialize Athena Client (Credentials automatically inferred from IAM execution role)
+// Initialize Athena & S3 Clients (Credentials automatically inferred from IAM execution role)
 const athenaClient = new AthenaClient({ region: REGION });
+const s3Client = new S3Client({ region: REGION });
 
 // Common CORS Response Headers
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
   'Content-Type': 'application/json',
 };
@@ -207,7 +212,7 @@ FROM "${ATHENA_DATABASE}"."student_risk_analysis_new";
     }
 
     // 2. GET /api/students
-    if (rawPath.endsWith('/api/students')) {
+    if (httpMethod === 'GET' && rawPath.endsWith('/api/students')) {
       const whereConditions: string[] = [];
 
       // Safe parameter sanitization using strict whitelists
@@ -276,6 +281,121 @@ FROM "${ATHENA_DATABASE}"."student_risk_analysis_new";
           table: 'student_risk_analysis_new',
           count: students.length,
           students,
+        }),
+      };
+    }
+
+    // 2.5. POST /api/students
+    if (httpMethod === 'POST' && (rawPath.endsWith('/api/students') || rawPath.endsWith('/api/students/'))) {
+      let body: any = {};
+      try {
+        body = JSON.parse(event.body || '{}');
+      } catch (e) {
+        return {
+          statusCode: 400,
+          headers: CORS_HEADERS,
+          body: JSON.stringify({ error: 'InvalidJSON', message: 'Invalid JSON body provided.' }),
+        };
+      }
+
+      const studentId = (body.id || body.student_id || '').trim();
+      if (!studentId) {
+        return {
+          statusCode: 400,
+          headers: CORS_HEADERS,
+          body: JSON.stringify({ error: 'ValidationError', message: 'Student ID is required.' }),
+        };
+      }
+
+      // Check duplicate Student ID in Athena database
+      try {
+        const checkSql = `SELECT student_id FROM "${ATHENA_DATABASE}"."student_risk_analysis_new" WHERE student_id = '${studentId.replace(/'/g, "''")}' LIMIT 1;`;
+        const existing = await executeAthenaQuery(checkSql);
+        if (existing && existing.length > 0) {
+          return {
+            statusCode: 409,
+            headers: CORS_HEADERS,
+            body: JSON.stringify({
+              error: 'DuplicateStudentId',
+              message: `Student ID '${studentId}' already exists. Please enter a unique Student ID.`,
+            }),
+          };
+        }
+      } catch (err: any) {
+        console.warn('Duplicate check query warning:', err.message);
+      }
+
+      // Calculate derived fields using exact project rules
+      const g3 = Number(body.G3 ?? body.g3 ?? 0);
+      const g1 = Number(body.G1 ?? body.g1 ?? 0);
+      const g2 = Number(body.G2 ?? body.g2 ?? 0);
+      const absences = Number(body.absences ?? 0);
+      const studytime = Number(body.studytime ?? 2);
+      const failures = Number(body.failures ?? 0);
+
+      let absence_group = 'Low (0-4)';
+      if (absences >= 10) absence_group = 'High (10+)';
+      else if (absences >= 5) absence_group = 'Moderate (5-9)';
+
+      let performance_level = 'Medium';
+      if (g3 >= 15) performance_level = 'High';
+      else if (g3 < 10) performance_level = 'Low';
+
+      let risk_level = 'Low Risk';
+      if (g3 < 10 || absences >= 10) {
+        risk_level = 'High Risk';
+      } else if (g3 < 12 || absences >= 5) {
+        risk_level = 'Moderate Risk';
+      }
+
+      const pass_status = g3 >= 10 ? 'Pass' : 'Fail';
+
+      const studentRecord = {
+        id: studentId,
+        school: body.school || 'GP',
+        sex: body.sex || 'F',
+        age: Number(body.age || 17),
+        studytime,
+        failures,
+        schoolsup: body.schoolsup || 'no',
+        famsup: body.famsup || 'yes',
+        paid: body.paid || 'no',
+        activities: body.activities || 'yes',
+        higher: body.higher || 'yes',
+        internet: body.internet || 'yes',
+        famrel: Number(body.famrel || 4),
+        freetime: Number(body.freetime || 3),
+        goout: Number(body.goout || 3),
+        health: Number(body.health || 4),
+        absences,
+        G1: g1,
+        G2: g2,
+        G3: g3,
+        performance_level,
+        absence_group,
+        risk_level,
+        pass_status,
+      };
+
+      const s3Key = `raw/new_students/${studentId}.json`;
+      const putCmd = new PutObjectCommand({
+        Bucket: S3_DATA_LAKE_BUCKET,
+        Key: s3Key,
+        Body: JSON.stringify(studentRecord),
+        ContentType: 'application/json',
+      });
+
+      await s3Client.send(putCmd);
+
+      return {
+        statusCode: 201,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          success: true,
+          message: 'Student record created successfully and stored in AWS Data Lake',
+          student_id: studentId,
+          s3_key: s3Key,
+          student: studentRecord,
         }),
       };
     }
