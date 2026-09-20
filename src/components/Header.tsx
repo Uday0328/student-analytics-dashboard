@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="brand-subtitle">
-              Enterprise academic intelligence & predictive risk modeling • Database:{' '}
+              Cloud-based student performance, risk and attendance analytics • Database:{' '}
               <code className="font-mono text-highlight">student_data_lake_db</code>
             </p>
           </div>
@@ -191,11 +191,11 @@ export const Header: React.FC<HeaderProps> = ({
           flex-wrap: wrap;
         }
         .brand-title {
-          font-size: 1.35rem;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-          color: #1E293B;
-          line-height: 1.3;
+          font-size: 1.55rem;
+          font-weight: 800;
+          letter-spacing: -0.015em;
+          color: #0F172A;
+          line-height: 1.25;
         }
         .athena-badge {
           display: inline-flex;
