@@ -1,46 +1,51 @@
 :root {
-  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Theme Colors - Executive Slate Dark Mode Default */
-  --bg-primary: #090d16;
-  --bg-secondary: #0f172a;
-  --bg-surface: #141e33;
-  --bg-surface-hover: #1b2845;
-  --bg-card: rgba(20, 30, 51, 0.75);
-  --border-color: rgba(59, 130, 246, 0.15);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: #3b82f6;
+  /* Professional Light Theme Palette */
+  --bg-primary: #F7F9FC;
+  --bg-secondary: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-hover: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --border-color: #CBD5E1;
+  --border-subtle: #E2E8F0;
+  --border-active: #3B82F6;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --text-inverse: #090d16;
+  --text-primary: #1E293B;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
 
-  --color-primary: #3b82f6;
-  --color-primary-light: #60a5fa;
-  --color-primary-glow: rgba(59, 130, 246, 0.25);
-  
-  --color-success: #10b981;
-  --color-success-bg: rgba(16, 185, 129, 0.12);
-  --color-success-border: rgba(16, 185, 129, 0.3);
+  --color-primary: #3B82F6;
+  --color-primary-dark: #2563EB;
+  --color-primary-light: #60A5FA;
+  --color-primary-bg: #EFF6FF;
+  --color-primary-glow: rgba(59, 130, 246, 0.12);
 
-  --color-warning: #f59e0b;
-  --color-warning-bg: rgba(245, 158, 11, 0.12);
-  --color-warning-border: rgba(245, 158, 11, 0.3);
+  --color-teal: #14B8A6;
+  --color-teal-dark: #0D9488;
+  --color-teal-bg: #F0FDFA;
 
-  --color-danger: #f43f5e;
-  --color-danger-bg: rgba(244, 63, 94, 0.12);
-  --color-danger-border: rgba(244, 63, 94, 0.3);
+  --color-success: #10B981;
+  --color-success-bg: #ECFDF5;
+  --color-success-border: #A7F3D0;
 
-  --color-purple: #8b5cf6;
-  --color-purple-bg: rgba(139, 92, 246, 0.12);
-  --color-cyan: #06b6d4;
+  --color-warning: #F59E0B;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-border: #FDE68A;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.5), 0 8px 16px -4px rgba(0, 0, 0, 0.3);
-  --shadow-glow: 0 0 20px -2px var(--color-primary-glow);
+  --color-danger: #EF4444;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-border: #FCA5A5;
+
+  --color-purple: #8B5CF6;
+  --color-purple-bg: #F5F3FF;
+  --color-purple-border: #DDD6FE;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.05), 0 2px 4px -1px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -51,33 +56,31 @@
   --transition-normal: 0.25s ease;
 }
 
-[data-theme='light'] {
-  --bg-primary: #f1f5f9;
-  --bg-secondary: #ffffff;
-  --bg-surface: #ffffff;
-  --bg-surface-hover: #f8fafc;
-  --bg-card: rgba(255, 255, 255, 0.9);
-  --border-color: rgba(59, 130, 246, 0.18);
-  --border-subtle: #e2e8f0;
-  --border-active: #2563eb;
+[data-theme='dark'] {
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-surface: #1E293B;
+  --bg-surface-hover: #334155;
+  --bg-card: #1E293B;
+  --border-color: #334155;
+  --border-subtle: #334155;
+  --border-active: #3B82F6;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --text-inverse: #ffffff;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-inverse: #0F172A;
 
-  --color-primary: #2563eb;
-  --color-primary-light: #3b82f6;
-  --color-primary-glow: rgba(37, 99, 235, 0.15);
+  --color-primary-bg: rgba(59, 130, 246, 0.15);
+  --color-teal-bg: rgba(20, 184, 166, 0.15);
+  --color-success-bg: rgba(16, 185, 129, 0.15);
+  --color-warning-bg: rgba(245, 158, 11, 0.15);
+  --color-danger-bg: rgba(239, 68, 68, 0.15);
+  --color-purple-bg: rgba(139, 92, 246, 0.15);
 
-  --color-success-bg: #ecfdf5;
-  --color-warning-bg: #fffbeb;
-  --color-danger-bg: #fff1f2;
-  --color-purple-bg: #f5f3ff;
-
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -94,10 +97,6 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: 
-    radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.04) 0%, transparent 40%);
-  background-attachment: fixed;
 }
 
 /* Scrollbars */
@@ -109,7 +108,7 @@ body {
   background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
+  background: var(--border-color);
   border-radius: var(--radius-full);
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -134,11 +133,9 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Card Style */
+/* Clean White Card Style */
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -147,6 +144,7 @@ body {
 
 .glass-card:hover {
   border-color: var(--border-color);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Badges */
@@ -159,7 +157,7 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .badge-success {
@@ -181,20 +179,26 @@ body {
 }
 
 .badge-primary {
-  background-color: var(--color-primary-glow);
-  color: var(--color-primary-light);
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary-dark);
   border: 1px solid var(--border-color);
+}
+
+.badge-teal {
+  background-color: var(--color-teal-bg);
+  color: var(--color-teal-dark);
+  border: 1px solid #99F6E4;
 }
 
 .badge-purple {
   background-color: var(--color-purple-bg);
   color: var(--color-purple);
-  border: 1px solid rgba(139, 92, 246, 0.3);
+  border: 1px solid var(--color-purple-border);
 }
 
 /* Interactive elements */
 button, select, input {
-  font-family: inherit;
+  font-family: var(--font-main);
 }
 
 .btn {
@@ -214,20 +218,21 @@ button, select, input {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1d4ed8 100%);
-  color: #ffffff;
-  box-shadow: 0 2px 8px var(--color-primary-glow);
+  background: var(--color-primary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
-  box-shadow: 0 4px 14px var(--color-primary-glow);
+  background: var(--color-primary-dark);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secondary {
   background: var(--bg-surface);
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
@@ -265,18 +270,19 @@ button, select, input {
   padding: 0.55rem 0.85rem;
   border-radius: var(--radius-md);
   font-size: 0.875rem;
+  font-weight: 500;
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .input-control:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary-glow);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 select.input-control {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748B'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 1rem;

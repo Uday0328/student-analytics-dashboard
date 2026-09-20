@@ -229,6 +229,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           display: flex;
           flex-direction: column;
           gap: 0.9rem;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
         }
         .filter-header-row {
           display: flex;
@@ -243,12 +246,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           gap: 0.5rem;
         }
         .filter-icon {
-          color: var(--color-primary-light);
+          color: #3B82F6;
         }
         .filter-title {
           font-size: 0.875rem;
           font-weight: 700;
-          color: var(--text-primary);
+          color: #1E293B;
           letter-spacing: -0.01em;
         }
         .filter-right-actions {
@@ -258,7 +261,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         }
         .filter-results-text {
           font-size: 0.8125rem;
-          color: var(--text-secondary);
+          color: #64748B;
         }
         .filter-grid {
           display: grid;
@@ -295,9 +298,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           gap: 0.35rem;
         }
         .filter-label {
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--text-muted);
+          font-size: 0.725rem;
+          font-weight: 700;
+          color: #64748B;
           text-transform: uppercase;
           letter-spacing: 0.03em;
         }
@@ -309,27 +312,29 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         .search-icon {
           position: absolute;
           left: 0.75rem;
-          color: var(--text-muted);
+          color: #94A3B8;
           pointer-events: none;
         }
         .search-input {
           width: 100%;
           padding-left: 2.2rem;
           padding-right: 2rem;
+          background: #F8FAFC;
+          border-color: #CBD5E1;
         }
         .clear-search-btn {
           position: absolute;
           right: 0.6rem;
           background: transparent;
           border: none;
-          color: var(--text-muted);
+          color: #94A3B8;
           cursor: pointer;
           display: flex;
           align-items: center;
           padding: 0.2rem;
         }
         .clear-search-btn:hover {
-          color: var(--text-primary);
+          color: #1E293B;
         }
         .active-chips-row {
           display: flex;
@@ -337,31 +342,32 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           flex-wrap: wrap;
           gap: 0.5rem;
           padding-top: 0.6rem;
-          border-top: 1px dashed var(--border-subtle);
+          border-top: 1px dashed #E2E8F0;
         }
         .chips-label {
           font-size: 0.75rem;
           font-weight: 600;
-          color: var(--text-muted);
+          color: #64748B;
         }
         .filter-chip {
           display: inline-flex;
           align-items: center;
           gap: 0.35rem;
-          padding: 0.2rem 0.6rem;
-          background: var(--bg-surface);
-          border: 1px solid var(--border-color);
+          padding: 0.2rem 0.65rem;
+          background: #EFF6FF;
+          border: 1px solid #BFDBFE;
           border-radius: var(--radius-full);
           font-size: 0.75rem;
-          color: var(--text-primary);
+          font-weight: 600;
+          color: #1D4ED8;
         }
         .filter-chip svg {
           cursor: pointer;
-          color: var(--text-muted);
+          color: #3B82F6;
           transition: color var(--transition-fast);
         }
         .filter-chip svg:hover {
-          color: var(--color-danger);
+          color: #EF4444;
         }
       `}</style>
     </div>

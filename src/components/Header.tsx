@@ -161,6 +161,11 @@ export const Header: React.FC<HeaderProps> = ({
           align-items: center;
           flex-wrap: wrap;
           gap: 1rem;
+          background: #FFFFFF;
+          padding: 1.25rem 1.5rem;
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--border-subtle);
+          box-shadow: var(--shadow-sm);
         }
         .header-brand {
           display: flex;
@@ -171,13 +176,13 @@ export const Header: React.FC<HeaderProps> = ({
           width: 48px;
           height: 48px;
           border-radius: var(--radius-md);
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-          border: 1px solid var(--border-color);
+          background: #EFF6FF;
+          border: 1px solid #BFDBFE;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--color-primary-light);
-          box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+          color: var(--color-primary);
+          box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
         }
         .brand-title-row {
           display: flex;
@@ -186,48 +191,52 @@ export const Header: React.FC<HeaderProps> = ({
           flex-wrap: wrap;
         }
         .brand-title {
-          font-size: 1.5rem;
+          font-size: 1.35rem;
           font-weight: 700;
-          letter-spacing: -0.02em;
-          color: var(--text-primary);
+          letter-spacing: -0.01em;
+          color: #1E293B;
+          line-height: 1.3;
         }
         .athena-badge {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
-          background: rgba(16, 185, 129, 0.12);
-          color: #34d399;
-          border: 1px solid rgba(16, 185, 129, 0.3);
-          padding: 0.2rem 0.6rem;
+          background: #F0FDFA;
+          color: #0D9488;
+          border: 1px solid #99F6E4;
+          padding: 0.2rem 0.65rem;
           border-radius: var(--radius-full);
           font-size: 0.75rem;
           font-weight: 600;
         }
         .live-dot {
-          width: 6px;
-          height: 6px;
+          width: 7px;
+          height: 7px;
           border-radius: 50%;
-          background-color: #10b981;
-          box-shadow: 0 0 8px #10b981;
+          background-color: #14B8A6;
+          box-shadow: 0 0 6px rgba(20, 184, 166, 0.6);
           animation: pulse-dot 2s infinite;
         }
         @keyframes pulse-dot {
           0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.4; transform: scale(0.85); }
+          50% { opacity: 0.5; transform: scale(0.85); }
         }
         .brand-subtitle {
-          font-size: 0.875rem;
-          color: var(--text-secondary);
+          font-size: 0.85rem;
+          color: #64748B;
           margin-top: 0.2rem;
+          font-weight: 400;
         }
         .text-highlight {
-          color: var(--color-primary-light);
-          background: rgba(59, 130, 246, 0.1);
+          color: #2563EB;
+          background: #EFF6FF;
           padding: 0.1rem 0.4rem;
           border-radius: 4px;
+          font-weight: 600;
         }
         .text-success {
-          color: #34d399;
+          color: #059669;
+          font-weight: 600;
         }
         .header-actions {
           display: flex;
@@ -238,12 +247,13 @@ export const Header: React.FC<HeaderProps> = ({
         .header-stats-bar {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 1.25rem;
           flex-wrap: wrap;
-          padding: 0.6rem 1rem;
-          background: var(--bg-surface);
+          padding: 0.65rem 1.25rem;
+          background: #FFFFFF;
           border: 1px solid var(--border-subtle);
           border-radius: var(--radius-md);
+          box-shadow: var(--shadow-sm);
         }
         .stats-pill {
           display: flex;
@@ -252,10 +262,11 @@ export const Header: React.FC<HeaderProps> = ({
           font-size: 0.8125rem;
         }
         .stats-label {
-          color: var(--text-muted);
+          color: #64748B;
+          font-weight: 500;
         }
         .stats-value {
-          color: var(--text-primary);
+          color: #1E293B;
           font-weight: 600;
         }
       `}</style>

@@ -343,6 +343,9 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           margin-bottom: 2rem;
           display: flex;
           flex-direction: column;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
         }
         .table-header-bar {
           display: flex;
@@ -358,12 +361,12 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           gap: 0.6rem;
         }
         .table-title-icon {
-          color: var(--color-primary-light);
+          color: #3B82F6;
         }
         .table-title {
           font-size: 1.05rem;
           font-weight: 700;
-          color: var(--text-primary);
+          color: #1E293B;
           letter-spacing: -0.01em;
         }
         .table-controls {
@@ -376,15 +379,17 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           align-items: center;
           gap: 0.4rem;
           font-size: 0.8125rem;
-          color: var(--text-secondary);
+          color: #64748B;
         }
         .input-control-sm {
           padding: 0.25rem 1.75rem 0.25rem 0.6rem;
           font-size: 0.8rem;
+          background: #F8FAFC;
+          border-color: #CBD5E1;
         }
         .table-scroll-container {
           overflow-x: auto;
-          border: 1px solid var(--border-subtle);
+          border: 1px solid #E2E8F0;
           border-radius: var(--radius-md);
         }
         .student-data-table {
@@ -394,13 +399,13 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           font-size: 0.825rem;
         }
         .student-data-table thead {
-          background: var(--bg-surface);
-          border-bottom: 1px solid var(--border-subtle);
+          background: #F8FAFC;
+          border-bottom: 1px solid #E2E8F0;
         }
         .student-data-table th {
           padding: 0.75rem 0.9rem;
-          font-weight: 600;
-          color: var(--text-secondary);
+          font-weight: 700;
+          color: #64748B;
           text-transform: uppercase;
           font-size: 0.725rem;
           letter-spacing: 0.03em;
@@ -412,7 +417,7 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           transition: color var(--transition-fast);
         }
         .sortable-th:hover {
-          color: var(--text-primary);
+          color: #1E293B;
         }
         .th-content {
           display: flex;
@@ -420,48 +425,49 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           gap: 0.4rem;
         }
         .sort-icon-muted {
-          color: var(--text-muted);
+          color: #94A3B8;
           opacity: 0.6;
         }
         .sort-icon-active {
-          color: var(--color-primary-light);
+          color: #2563EB;
         }
         .action-th {
           text-align: center;
         }
         .student-data-table tbody tr {
-          border-bottom: 1px solid var(--border-subtle);
+          border-bottom: 1px solid #E2E8F0;
           transition: background-color var(--transition-fast);
         }
         .table-row-interactive {
           cursor: pointer;
         }
         .table-row-interactive:hover {
-          background-color: var(--bg-surface-hover);
+          background-color: #F1F5F9;
         }
         .student-data-table td {
           padding: 0.7rem 0.9rem;
-          color: var(--text-primary);
+          color: #1E293B;
           white-space: nowrap;
         }
         .text-highlight-col {
           font-weight: 600;
-          color: var(--color-primary-light);
+          color: #2563EB;
         }
         .school-pill {
           padding: 0.15rem 0.45rem;
-          background: var(--bg-surface);
-          border: 1px solid var(--border-subtle);
+          background: #F1F5F9;
+          border: 1px solid #CBD5E1;
           border-radius: 4px;
           font-size: 0.75rem;
           font-weight: 600;
+          color: #334155;
         }
         .gender-tag {
           font-weight: 600;
           font-size: 0.75rem;
         }
-        .gender-F { color: #f472b6; }
-        .gender-M { color: #60a5fa; }
+        .gender-F { color: #EC4899; }
+        .gender-M { color: #2563EB; }
         .grade-pill {
           display: inline-block;
           min-width: 28px;
@@ -472,24 +478,24 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           font-size: 0.8rem;
         }
         .grade-high {
-          background: rgba(16, 185, 129, 0.15);
-          color: #34d399;
-          border: 1px solid rgba(16, 185, 129, 0.3);
+          background: #ECFDF5;
+          color: #059669;
+          border: 1px solid #A7F3D0;
         }
         .grade-medium {
-          background: rgba(59, 130, 246, 0.15);
-          color: #60a5fa;
-          border: 1px solid rgba(59, 130, 246, 0.3);
+          background: #EFF6FF;
+          color: #2563EB;
+          border: 1px solid #BFDBFE;
         }
         .grade-low {
-          background: rgba(244, 63, 94, 0.15);
-          color: #fb7185;
-          border: 1px solid rgba(244, 63, 94, 0.3);
+          background: #FEF2F2;
+          color: #DC2626;
+          border: 1px solid #FCA5A5;
         }
         .btn-icon-view {
-          background: transparent;
-          border: 1px solid var(--border-subtle);
-          color: var(--text-muted);
+          background: #F8FAFC;
+          border: 1px solid #CBD5E1;
+          color: #64748B;
           padding: 0.3rem 0.5rem;
           border-radius: var(--radius-sm);
           cursor: pointer;
@@ -498,9 +504,9 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
           align-items: center;
         }
         .btn-icon-view:hover {
-          color: var(--color-primary-light);
-          border-color: var(--border-color);
-          background: var(--bg-surface);
+          color: #2563EB;
+          border-color: #93C5FD;
+          background: #EFF6FF;
         }
         .action-cell {
           text-align: center;
@@ -512,11 +518,11 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
         .empty-state p {
           font-size: 0.95rem;
           font-weight: 600;
-          color: var(--text-secondary);
+          color: #1E293B;
         }
         .empty-sub {
           font-size: 0.8125rem;
-          color: var(--text-muted);
+          color: #64748B;
           margin-top: 0.25rem;
           display: block;
         }
@@ -530,7 +536,7 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
         }
         .pagination-info {
           font-size: 0.8125rem;
-          color: var(--text-secondary);
+          color: #64748B;
         }
         .pagination-nav {
           display: flex;
@@ -539,6 +545,13 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
         }
         .btn-nav {
           padding: 0.35rem 0.55rem;
+          border-color: #CBD5E1;
+          background: #FFFFFF;
+          color: #334155;
+        }
+        .btn-nav:hover:not(:disabled) {
+          background: #F1F5F9;
+          color: #1E293B;
         }
         .btn-nav:disabled {
           opacity: 0.35;
@@ -546,7 +559,7 @@ export const StudentTable: React.FC<StudentTableProps> = ({ students, onSelectSt
         }
         .page-counter {
           font-size: 0.8125rem;
-          color: var(--text-secondary);
+          color: #64748B;
           margin: 0 0.5rem;
         }
       `}</style>

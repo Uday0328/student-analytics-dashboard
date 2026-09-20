@@ -21,7 +21,7 @@ const INITIAL_FILTERS: FilterState = {
 };
 
 export const App: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [isAthenaModalOpen, setIsAthenaModalOpen] = useState<boolean>(false);
