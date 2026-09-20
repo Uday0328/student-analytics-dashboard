@@ -189,6 +189,10 @@ async function main() {
       const ext = path.extname(filePath).toLowerCase();
       const contentType = MIME_TYPES[ext] || 'application/octet-stream';
       const fileBody = fs.readFileSync(filePath);
+      const cacheControl =
+        relKey === 'index.html'
+          ? 'no-cache, no-store, must-revalidate, max-age=0'
+          : 'public, max-age=31536000, immutable';
 
       await s3Client.send(
         new PutObjectCommand({
@@ -196,9 +200,10 @@ async function main() {
           Key: relKey,
           Body: fileBody,
           ContentType: contentType,
+          CacheControl: cacheControl,
         })
       );
-      console.log(`   Uploaded: ${relKey} (${contentType})`);
+      console.log(`   Uploaded: ${relKey} (${contentType}) [${cacheControl}]`);
     }
 
     console.log('\n============================================================');

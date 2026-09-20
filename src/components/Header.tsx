@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="brand-title-row">
-              <h1 className="brand-title">Student Performance Analytics</h1>
+              <h1 className="brand-title">Cloud Based Student Data Lake and Analytics System</h1>
               <span className="athena-badge">
                 <span className="live-dot"></span>
                 Athena Data Lake
